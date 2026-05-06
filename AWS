@@ -1,0 +1,271 @@
+
+
+Steps to Create EC2 Instance
+Go to Amazon Web Services
+In the search bar, type EC2 and select  Amazon EC2
+Click on “Launch Instance”
+
+Enter Name of your instance
+Choose AMI (Amazon Machine Image)         //  Example: Amazon Linux, Ubuntu
+Select Instance Type			 //   Example: t3.micro (Free tier eligible)
+Create / Select Key Pair			//    Download .pem file safely
+
+Allow ports:
+SSH (22) → for login
+HTTP (80) → for web server
+HTTPS (443) → optional
+
+Storage   // default is fine
+
+Click “Launch Instance”
+Wait for instance to start
+
+ Verify
+Go to Instances → Running Instances
+Copy Public IP
+Connect using:
+SSH (Linux/Mac)
+PuTTY (Windows)
+
+ssh -i key.pem ec2-user@your-public-ip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create S3 Bucket
+In search bar, type S3 and open
+Amazon S3
+Click on “Create bucket”
+
+Enter Bucket Name		//Must be globally unique
+
+Turn OFF only if you want public files (like website)
+
+Click “Create bucket”
+
+Upload Files
+Open your bucket
+Click “Upload”
+Add files → Click Upload
+
+Click uploaded file
+Copy Object URL
+If public access enabled → open in browser
+
+To give permission to object 
+
+Goto to bucket - click on permission - then Edit bucket policy - and paste below code with your bucket_name - and save 
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/*"
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+Steps to Create VPC (VPC and More)
+In search bar, type VPC and open Amazon VPC
+Click on “Create VPC”
+Select “VPC and more” 
+
+Enter Name Tag		// Example: my-auto-vpc
+IPv4 CIDR Block		// Example: 10.0.0.0/16
+
+Select:
+Number of Availability Zones (e.g., 2)
+Number of Public Subnets (e.g., 2)
+Number of Private Subnets (e.g., 2)
+AWS will automatically create subnets
+Internet Gateway → Enabled (default)
+NAT Gateway →
+Select 1 per AZ (or none for free tier)
+Click “Create VPC”
+
+Create EC2 Instances for public and private subnet 
+
+Ssh to public EC2 instances and then ssh to private EC2. 
+
+Create one ec2 instance with public subnet of created vpc and enable auto ip assign
+[name]-[select key pair]-[edit network setting]-[select public subnet my_vpc]-[enable auto ip]-[lauch instance]
+
+Create one ec2 instance with private subnet of created vpc 
+[name]-[select key pair]-[edit network setting]-[select private subnet my_vpc]-[lauch instance]
+
+[goto-terminal]-[ssh to public instance] -[change permission of my_key]-[chmod 400 my_key]-[sudo ssh -i my_key ubuntu@100.23.10.234]
+
+Now from public instance ssh to private ec2, for this we want to my_key inside public instance for this copy my_key.pem from another terminal and paste in vim my_key.pem and change permission -[chmod 400 my_key]-Then  [sudo ssh -i my_key ubuntu@10.0.1.128]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vpc only
+Name : my-vpc
+Ipv4 CIDR : 10.0.0.0/16
+Create  VPC
+
+SUBNETS
+create subnet -> select vpc -> name public subnet -> ipv4 CIDR /16.  Ipv4 CIDR WRITE  1.0 /24
+
+Now create private subnet do the same steps just add CIDR 10.0.2.0/24 
+
+
+IGW
+
+Name and create internet gateway give nae create and attach to vpc  select vpc
+
+Route table
+Give name select vpc create route table
+Edit routes  add route public aahe mhnun 0.0.0.0 select internet gateway give save changes 
+Go to subnet associations select public subnet save associations 
+
+Create route table for private  give name and add vpc do not add routes save changes 
+Go to subnet associations select private subnet save associations
+
+Security groups
+Create security group give name
+Description allow ssh
+Select vpc 
+Inbound rules type ssh source anywhere 0.0.0.0/0 
+Create security group give
+
+For private create security group
+Give name select vpc add inbound rule 
+In type select ssh, source is custom in search for public security group that u created amd attach it
+Create security group 
+
+Go to EC2
+Launch instance give name select Ubuntu create key  network settings select vpc  select public subnet  auto assign public ip enable select existing security group (public sg)  launch instance
+
+Create private instance follow same steps but disable auto assign ipv4 select security group of private select private subnet  launch instance 
+Connect connect using public ip connect
+
+Copy key in this terminal vim key.pem
+chmod 400 key.pem
+ssh -i key.pem ubuntu@ip of private instnce
+
+Create file vim file.txt
+Copy to private instance. scp -r -i key.pem file.txt ubuntu@ip of private 
+
+
+Create directory in private instance mkdir -p /home/ubuntu 
+cd /home
+ls
+exit
+——————————————————-
+
+Snapshot
+
+Go to instance create snapshot create image from snapshot give name click on ami launch instance from ami give name keypair launch instance 
+Go to instNce connect copy example and paste in terminal or directly connect
+
+Click on instances select instance you want to create volume of and go to actions select image and templates select create image add name create image … go to images select image you created and launch instance from ami
+Give name and launch instance 
+
+Go to that instance and connect and connect this will open a terminal 
+Here cd /home/ubuntu where you created file on the public instance
+ls
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Steps to Create IAM User
+In search bar, type IAM and open
+AWS Identity and Access Management
+
+Create User
+Click on “Users” (left panel)
+Click “Create user”
+Enter User Name
+Example: dev-user
+
+Set Permissions
+Choose permission option:
+Add user to group (recommended)
+OR Attach policies directly
+Select group or policy
+Example: AdministratorAccess (full access)
+OR limited access (best practice)
+
+Access Type
+Set password (auto/custom)
+
+Review & Create
+Click Next → Review
+Click “Create user”
+
+Save Credentials
+Download or copy:
+Username
+Password
+Access Key & Secret Key
+
+Verify
+Go to Users list → check created user
+
+
+
+
+
+
+
+
+
