@@ -1,0 +1,114 @@
+To clone git repo to local machine and make changes and push on github
+# git clone https://github.com/avigyan2212-dev/git_repo_name.git
+///But this should first created on github account 
+# cd git_repo_name
+# vi hello.py   ///// make some changes
+# git add hello.py or .
+# git commit -m “message”
+# git status
+# git push origin main
+/// It will ask for username <avigyan2212-dev> and password or token
+
+
+
+To make a repo in local machine and clone onto github
+# mkdir dirname 
+# Cd dirname
+# git config --global user.name “avigyan2212-dev“
+# git config --global user.email “avigyan2212@gmail.com"
+# vim hello.py
+# git init
+# git remote add origin https://github.com/avigyan2212-dev/git_repo_name.git
+///But this should first created on github account 
+# git add  <filename> or .
+# git status
+# git commit -m “comment”
+# git push origin main/master 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Branching  
+
+# git branch 
+//Lists all local branches 
+
+# git checkout -b <new-branch-name>
+// To create branch
+
+# git checkout <new-branch-name> 
+// Switches  different branch.
+
+# git merge <branch_name2>
+// merge and changes of the branch2 into your current active branch1.
+
+# git checkout main      // But final push will be from main branch.
+
+
+Merge conflict
+Step 1: 
+# git checkout main
+# vim app.py
+# git add app.py
+# git commit -m "Initial commit"
+
+Step 2: Create "Branch-A" 
+#git checkout -b branch-a
+# vim app.py
+# git add app.py
+# git commit -m "Modified by A"
+
+Step 3: Create "Branch-B" and 
+# git checkout main
+# git checkout -b branch-b
+# vim app.py
+# git add app.py
+# git commit -m "Modified by B"
+
+Step 4: The Conflict (Merging)
+# git merge branch-a
+Output: CONFLICT (content): Merge conflict in app.py 
+
+
+
+
+
+
+
+
+
+
+Step 5: Resolve the Conflict
+# vim app.py		///To fix it and make it final version
+# git add app.py
+# git commit -m "Resolved "
+
+
+Step 6: Finalize the Merge and Push
+# git checkout main
+# git merge branch-b
+# git push origin main
+
+
+Commit revert
+
+# git reflog		// to check log it will give commit_id 
+# git revert <id>
