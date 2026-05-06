@@ -266,6 +266,16 @@ Go to Users list → check created user
 
 
 
+S3-Create Bucket-bucket name(my-bucket)-bucket versioning(enable)-create bucket-upload(add-files) - take index.html-click and upload - 
+now edit manually that index.html (from notepad) - upload again the edited file(select and upload) - 
+click on show version (check 2 files) - off the show version - select that index file and delete(Delete marker) - again click on show version - 
+delete the file permanently.
+
+
+
+
+
+
 
 
 
