@@ -1,0 +1,19 @@
+
+Dockerfile
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY . /app/
+
+CMD ["python", "app.py"]
+
+
+App.py
+print("Hello from Dockerized Python!")
+
+
+Docker build -t py_ig
+Docker run py_ig
+
